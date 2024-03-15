@@ -1,0 +1,16 @@
+            - name: Machine Translator
+  # You may pin to the exact commit or the version.
+  # uses: IEvangelist/resource-translator@4d1f4bf2f93111fd0c500d4d47cf097ce2549905
+  uses: IEvangelist/resource-translator@v2.2.1
+  with:
+    # The source locale (for example, 'en') used to create the glob pattern for finding translation (**/*.en.resx) files as input.
+    sourceLocale: 
+    # The Azure Cognitive Services translator resource subscription key.
+    subscriptionKey: 
+    # The Azure Cognitive Services translator resource endpoint.
+    endpoint: 
+    # The Azure Cognitive Services translator resource region. This is optional when using a global translator resource.
+    region: # optional
+    # Optional locales to translate to, otherwise all possible locales are targeted. Example input, '"es,de,fr"' or '["es","de","fr"]'. Requires double quotes.
+    toLocales: # optional
+          
