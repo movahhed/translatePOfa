@@ -13,4 +13,40 @@
     region: # optional
     # Optional locales to translate to, otherwise all possible locales are targeted. Example input, '"es,de,fr"' or '["es","de","fr"]'. Requires double quotes.
     toLocales: # optional
+
+    name: Create translation pull request
+
+on:
+ push:
+    branches: [ main ]
+    paths:
+    - '**/*.po' # فایل‌های .po را مشاهده می‌کند
+
+env:
+ GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+ build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Machine Translator
+        id: translator
+        uses: IEvangelist/resource-translator@v2.2.1
+        with:
+          sourceLocale: 'en' # زبان منبع ترجمه
+          subscriptionKey: ${{ secrets.AZURE_TRANSLATOR_SUBSCRIPTION_KEY }} # کلید اشتراک خدمات Azure Cognitive Services
+          endpoint: ${{ secrets.AZURE_TRANSLATOR_ENDPOINT }} # نقطه پایانی خدمات Azure Cognitive Services
+          region: ${{ secrets.AZURE_TRANSLATOR_REGION }} # منطقه خدمات Azure Cognitive Services (اختیاری)
+          toLocales: '["fa"]' # زبان‌های هدف ترجمه
+
+      - name: create-pull-request
+        uses: peter-evans/create-pull-request@v3.4.1
+        if: ${{ steps.translator.outputs.has-new-translations }} == 'true'
+        with:
+          title: '${{ steps.translator.outputs.summary-title }}'
+          commit-message: '${{ steps.translator.outputs.summary-details }}'
+
           
